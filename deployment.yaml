@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: classic-arcade
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: classic-arcade
+  template:
+    metadata:
+      labels:
+        app: classic-arcade
+    spec:
+      containers:
+      - name: classic-arcade
+        image: classic-arcade:v1
+        ports:
+        - containerPort: 80

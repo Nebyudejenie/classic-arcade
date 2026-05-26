@@ -1,0 +1,32 @@
+name: Build and Deploy Classic Arcade
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: nebyudejenie/classic-arcade
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Log in to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build Docker image
+      run: |
+        docker build -t $REGISTRY/$IMAGE_NAME:latest .
+
+    - name: Push image
+      run: |
+        docker push $REGISTRY/$IMAGE_NAME:latest
